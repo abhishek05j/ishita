@@ -1,16 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A Surprise For You</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You 💖</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+</head>
+<body>
+
+  <!-- Background Ambient Blobs -->
+  <div class="ambient-blob ambient-blob-1"></div>
+  <div class="ambient-blob ambient-blob-2"></div>
+  <div class="ambient-blob ambient-blob-3"></div>
+
+  <!-- Floating Emojis Layer -->
+  <div id="floating-emojis"></div>
+
+  <div id="app">
+    
+    <!-- 1. LANDING PAGE -->
+    <div id="landing-page" class="page active">
+      <div class="glass" style="padding: 40px; text-align: center;">
+        <h1 class="font-serif shimmer-text" id="landing-text"></h1>
+        <button id="landing-btn" class="font-sans">Open My Gift 🎁</button>
+      </div>
+    </div>
+
+    <!-- 2. PASSWORD PAGE -->
+    <div id="password-page" class="page">
+      <div class="glass" style="padding: 40px; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 10px;">🔒</div>
+        <h2 class="font-serif glow-text" style="font-size: 1.5rem; margin-bottom: 20px;" id="password-title">Enter Passcode</h2>
+        
+        <div class="passcode-container" id="passcode-dots" style="margin-bottom: 30px;">
+          <div class="pass-dot"></div><div class="pass-dot"></div><div class="pass-dot"></div><div class="pass-dot"></div>
+        </div>
+        
+        <div class="keypad" id="keypad">
+          <!-- Keys generated in JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. CAMERA SURPRISE PAGE -->
+    <div id="camera-page" class="page">
+      <div id="camera-container" class="glass-white">
+        <!-- Floating Emojis localized to the camera container -->
+        <div id="camera-emojis"></div>
+        
+        <!-- Live Video Feed -->
+        <video id="camera-video" autoplay playsinline muted></video>
+        
+        <!-- Glowing Overlay Text -->
+        <div class="camera-overlay-text font-serif glow-text text-center">
+          Mera Baccha, You Are The Most Beautiful Girl In The Whole Universe 💖✨
+        </div>
+      </div>
+      
+      <button id="capture-btn" class="font-sans mt-4">Capture & Read Letter 💌</button>
+      <div id="camera-flash"></div>
+    </div>
+
+    <!-- 4. LETTER PAGE -->
+    <div id="letter-page" class="page">
+      <div class="polaroid">
+        <!-- Replaced with a simple heart placeholder if hero.png is missing -->
+        <div style="width: 100%; aspect-ratio: 1; background: #ffe6f2; display: flex; align-items: center; justify-content: center; font-size: 5rem;">💖</div>
+        <div class="polaroid-caption">My Everything</div>
+      </div>
+      
+      <div class="glass letter-content" style="padding: 30px; position: relative; z-index: 10;">
+        <h2 class="font-hand glow-text" style="font-size: 2.5rem; margin-bottom: 20px; color: var(--primary-light);">Hey Baccha 💖</h2>
+        <div class="font-serif" style="font-size: 1.1rem; color: #ffe6f2;" id="letter-text-container">
+          <!-- Typewriter letter text goes here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <audio id="audio-player" src="khat.mp3" loop preload="auto"></audio>
+  
+  <button id="music-toggle" title="Toggle Music">
+    <div class="ring"></div>
+    <span>🎵</span>
+  </button>
+  
+  <div id="music-panel" class="glass">
+    <div class="music-header">
+      <div>
+        <p style="font-size: 10px; color: var(--primary-light); opacity: 0.6; text-transform: uppercase; letter-spacing: 2px;">Now Playing</p>
+        <h3 class="font-serif glow-text" style="color: var(--primary-light); font-size: 1.2rem;">Khat 💌</h3>
+        <p class="font-caveat" style="color: var(--primary-light); opacity: 0.8; font-size: 0.9rem;">Navjot Ahuja</p>
+      </div>
+      <div class="vinyl" id="vinyl">💿</div>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="time-info">
+        <span id="time-current">0:00</span>
+        <span id="time-total">0:00</span>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="ctrl-btn" id="btn-rewind" title="-10s">◁◁</button>
+      <button class="play-btn" id="btn-play">▶</button>
+      <button class="ctrl-btn" id="btn-forward" title="+10s">▷▷</button>
+    </div>
+    
+    <div class="volume-container">
+      <span style="font-size: 12px;">🔈</span>
+      <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+      <span style="font-size: 12px;">🔊</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
